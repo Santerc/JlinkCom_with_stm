@@ -10,18 +10,23 @@ import time
 import pylink
 
 jlink = pylink.JLink()
-try:
-    # Initialization
-    jlink.open()
-    jlink.connect('Cortex-M3')# well... I forget the model of our board 
+while 1 :
+    try:
+        # Initialization
+        
+        jlink.open(0)
+        jlink.connect('Cortex-M3')
 
-    address = 0x00000
+        jlink.swo_start(9600)
+        
+        address = 0x00000
 
-    # Try to read
-    while 1 :
-        num = jlink.memory_read8(address, 1)[0]
-        print("Congratulations! number at address {hex(address)} is : {num}")
-        time.sleep(0.01)
+        # Try to read
+        while 1 :
+            num = jlink.memory_read8(address, 1)[0]
+            print("Congratulations! number at address {hex(address)} is : {num}")
+            time.sleep(0.01)
 
-except pylink.errors.JLinkException as e:
-    print("[JLink Debug Error]: {e}")
+    except pylink.errors.JLinkException as e:
+        print("[JLink Debug Error]: {e}")
+        time.sleep(1)
